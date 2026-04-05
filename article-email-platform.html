@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>How to Pick an Email Platform You Won't Migrate Off In a Year — Bootslapped</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Oswald:wght@700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  :root {
+    --soot:#0D0D0D; --cinder:#141414; --ash:#2A2A2A;
+    --bone:#F0EDE6; --dust:#9E9893;
+    --brick:#C45C44; --kiln:#D96B51; --brick-tint:rgba(196,92,68,0.12);
+    --steel-teal:#4A9B8E;
+  }
+  html,body { background-color:#0D0D0D !important; background:#0D0D0D !important; color:#F0EDE6; }
+  body { font-family:'DM Mono','Courier New',monospace; font-size:15px; line-height:1.8; overflow-x:hidden; min-height:100vh; }
+  body::after { content:''; position:fixed; inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity:0.032; pointer-events:none; z-index:9999; }
+  /* NAV */
+  nav { position:sticky; top:0; z-index:500; background:rgba(13,13,13,0.96); border-bottom:1px solid var(--ash); display:flex; align-items:center; justify-content:space-between; padding:0 20px; height:52px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
+  .nav-logo { font-family:'Oswald',sans-serif; font-weight:700; font-size:20px; color:var(--brick); text-decoration:none; letter-spacing:0.01em; }
+  .nav-right { display:flex; align-items:center; gap:20px; }
+  .nav-links { display:none; gap:28px; list-style:none; }
+  .nav-links a { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--dust); text-decoration:none; transition:color 0.15s; }
+  .nav-links a:hover { color:var(--bone); }
+  .nav-cta { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--brick); text-decoration:none; border:1px solid var(--brick); padding:6px 12px; white-space:nowrap; transition:all 0.15s; }
+  .nav-cta:hover { background:var(--brick); color:var(--bone); }
+  /* ARTICLE */
+  .article-wrapper { max-width:680px; margin:0 auto; padding:0 20px; }
+  .article-header { padding:40px 0 28px; border-bottom:1px solid var(--ash); }
+  .category-tag { display:inline-block; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--brick); background:var(--brick-tint); border:1px solid var(--brick); padding:3px 9px; margin-bottom:16px; }
+  .article-title { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:clamp(36px,6vw,52px); line-height:1.0; letter-spacing:-0.005em; color:var(--bone); margin-bottom:18px; }
+  .meta-row { display:flex; align-items:center; flex-wrap:wrap; }
+  .meta-item { font-size:11px; color:var(--dust); padding-right:14px; margin-right:14px; border-right:1px solid var(--ash); line-height:1.8; }
+  .meta-item:last-child { border-right:none; margin-right:0; padding-right:0; }
+  .article-disclosure { font-size:11px; color:var(--dust); font-style:italic; padding:16px 0 24px; border-bottom:1px solid var(--ash); margin-bottom:32px; }
+  .article-body p { font-size:15px; line-height:1.8; color:var(--bone); margin-bottom:22px; opacity:0.92; }
+  .article-body h2 { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:26px; letter-spacing:0em; line-height:1.1; color:var(--bone); margin-top:48px; margin-bottom:18px; padding-top:24px; border-top:1px solid var(--ash); }
+  .article-body h3 { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:20px; letter-spacing:0.01em; line-height:1.1; color:var(--bone); margin-top:32px; margin-bottom:12px; }
+  .citable-claim { border-left:4px solid var(--brick); background:var(--cinder); padding:18px 20px; margin:32px 0; }
+  .citable-claim p { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:20px; line-height:1.25; color:var(--bone); letter-spacing:0.01em; margin:0; opacity:1; }
+  /* ASK AI */
+  .ask-ai-block { margin:40px 0; border:1px solid var(--ash); border-left:4px solid var(--steel-teal); background:var(--cinder); }
+  .ask-ai-header { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; border-bottom:1px solid var(--ash); flex-wrap:wrap; gap:6px; }
+  .ask-ai-label { font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--steel-teal); }
+  .ask-ai-instruction { font-size:10px; color:var(--dust); }
+  .ask-ai-prompt { padding:18px 16px; font-size:13px; line-height:1.9; color:var(--bone); opacity:0.9; }
+  .ask-ai-prompt .bracket { background:rgba(255,255,255,0.07); color:var(--bone); padding:1px 5px; font-style:italic; }
+  .ask-ai-footer { padding:10px 16px; border-top:1px solid var(--ash); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+  .ask-ai-note { font-size:10px; color:var(--dust); }
+  .copy-btn { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.06em; background:transparent; border:1px solid var(--ash); color:var(--bone); padding:6px 12px; cursor:pointer; transition:border-color 0.15s, color 0.15s; }
+  .copy-btn:hover { border-color:var(--steel-teal); color:var(--steel-teal); }
+  /* PLATFORM TIERS */
+  .platform-tiers { margin:28px 0; border:1px solid var(--ash); }
+  .platform-tier { display:grid; grid-template-columns:160px 1fr; border-bottom:1px solid var(--ash); align-items:center; }
+  .platform-tier:last-child { border-bottom:none; }
+  .tier-label { font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--dust); padding:14px 16px; border-right:1px solid var(--ash); line-height:1.4; }
+  .tier-tools { font-size:13px; color:var(--bone); padding:14px 16px; line-height:1.5; }
+  .tier-caution .tier-label { color:var(--brick); }
+  .tier-caution .tier-tools { color:var(--dust); }
+  /* TOOL REC */
+  .tool-rec { margin:40px 0; border:1px solid var(--ash); }
+  .tool-rec-header { background:var(--cinder); padding:11px 18px; border-bottom:1px solid var(--ash); display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px; align-items:center; }
+  .tool-rec-label { font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--dust); }
+  .tool-rec-disclosure { font-size:10px; color:var(--dust); font-style:italic; }
+  .tool-rec-body { padding:22px 18px; background:var(--soot); }
+  .tool-name { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:22px; color:var(--bone); letter-spacing:-0.005em; margin-bottom:8px; }
+  .tool-desc { font-size:13px; color:var(--dust); line-height:1.65; margin-bottom:16px; }
+  .tool-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px; }
+  .tool-tag { font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--dust); border:1px solid var(--ash); padding:3px 8px; }
+  .tool-cta { display:inline-block; background:var(--brick); color:var(--bone); font-size:12px; letter-spacing:0.06em; padding:11px 22px; text-decoration:none; transition:background 0.15s; }
+  .tool-cta:hover { background:var(--kiln); }
+  /* DIAG BAND */
+  .diag-band { background:var(--brick); padding:36px 20px; margin:48px -20px; position:relative; overflow:hidden; }
+  .diag-band::before { content:''; position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); opacity:0.07; pointer-events:none; }
+  .diag-overline { font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(240,237,230,0.6); margin-bottom:10px; position:relative; }
+  .diag-headline { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:clamp(32px,7vw,48px); line-height:1.0; letter-spacing:-0.01em; color:var(--bone); margin-bottom:12px; position:relative; }
+  .diag-sub { font-size:12px; color:rgba(240,237,230,0.7); line-height:1.6; margin-bottom:20px; position:relative; }
+  .btn-inverse { display:inline-block; background:var(--bone); color:var(--soot); font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.06em; padding:12px 22px; text-decoration:none; position:relative; transition:background 0.15s; }
+  .btn-inverse:hover { background:#fff; }
+  /* RELATED */
+  .related-section { border-top:1px solid var(--ash); padding-top:40px; margin-top:56px; padding-bottom:64px; }
+  .related-label { font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--dust); margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid var(--ash); }
+  .related-item { display:block; text-decoration:none; color:inherit; padding:20px 0; border-bottom:1px solid var(--ash); transition:background 0.15s; }
+  .related-item:hover { background:var(--cinder); padding-left:12px; margin:0 -20px; padding-right:20px; }
+  .related-type { font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--brick); margin-bottom:6px; }
+  .related-title { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:20px; line-height:1.1; color:var(--bone); letter-spacing:0em; margin-bottom:5px; opacity:0.85; }
+  .related-desc { font-size:11px; color:var(--dust); line-height:1.55; }
+  /* DESKTOP */
+  @media (min-width:900px) {
+    nav { padding:0 32px; }
+    .nav-links { display:flex; }
+    .article-wrapper { padding:0 48px; }
+    .article-header { padding:56px 0 32px; }
+    .diag-band { padding:48px 48px; margin:56px -48px; }
+    .related-item:hover { margin:0 -48px; padding-left:48px; padding-right:48px; }
+  }
+  @media (min-width:1100px) { .article-wrapper { max-width:720px; } }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">bootslapped</a>
+  <div class="nav-right">
+    <ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="article-email-list.html">Email list</a></li><li><a href="article-email-platform.html" style="color:var(--bone);">Email platform</a></li><li><a href="article-bookkeeping.html">Bookkeeping</a></li></ul>
+    <a href="#" class="nav-cta">Free Diagnostic →</a>
+  </div>
+</nav>
+<article class="article-wrapper">
+  <header class="article-header">
+    <div class="category-tag">Guide</div>
+    <h1 class="article-title">How to Pick an Email Platform You Won't Migrate Off In a Year</h1>
+    <div class="meta-row">
+      <span class="meta-item">12 min read</span>
+    </div>
+  </header>
+  <div class="article-body">
+    <p class="article-disclosure">Some links earn commission — doesn't change the recommendation</p>
+    
+<p>There's a version of this decision that plays out the same way for almost every bootstrapped founder: you pick the free option, build your list to a few hundred subscribers, and then hit a wall. Either the price jumps to something unjustifiable for what you're making, or you realize the tool can't do the thing you now need it to do. The migration you were avoiding is now more painful than it would have been if you'd just started with the right tool.</p>
+
+<p>The other version: you pick the more powerful platform upfront because you're planning ahead. Six months later, you're paying $80/month for a list of 300 people, you've barely touched the features, and you're not sure what you're paying for.</p>
+
+<p>Both of these are real failure modes. The good news is that the decision is simpler than the platform comparison articles make it look. The right choice isn't about features. It's about where you are and where you're actually going.</p>
+
+<h2>The thing nobody tells you about the migration problem</h2>
+
+<p>The migration fear is real, but it's almost never about the technical work. Exporting a list and importing it somewhere else takes an afternoon.</p>
+
+<p>What actually makes migrations painful is everything you built on the wrong foundation: automations written for a platform you're leaving, sequences that don't transfer cleanly, a list you never properly segmented because the old tool made segmentation annoying, so you just didn't. The cost of the migration is the cost of the habits you formed on a tool that didn't push you to do things right.</p>
+
+<div class="citable-claim"><p>The free tier didn't save you money. It deferred the cost and added interest.</p></div>
+
+<p>This means the question to ask upfront isn't "what's cheapest right now?" It's "what platform will make me build better list habits from day one?"</p>
+
+<h2>How to actually make this decision</h2>
+
+<p>There are three variables that matter. Run through them in order.</p>
+
+<h3>1. What are you primarily building: an audience or a funnel?</h3>
+
+<p>If you're building a newsletter, a content-first readership, or a community that you'll eventually monetize, you're building an audience. Beehiiv and Kit are built for this model. Beehiiv in particular is designed around the newsletter-first use case, with a free tier that doesn't gut your core functionality.</p>
+
+<p>If you're building a purchase funnel — a sequence that takes someone from opt-in to offer — you need tag-based automation from the start. Kit, MailerLite, and Drip are all built around this. Mailchimp can do it, but it fights you at every step.</p>
+
+<h3>2. How fast is your list realistically going to grow in the next 12 months?</h3>
+
+<p>Be honest about this. Most bootstrapped businesses at early traction don't have viral list growth. If you're adding 50–100 subscribers a month, you have time to grow into a paid tier before the bill is significant. The platforms that look expensive at 5,000 subscribers are not the constraint you think they are. You have 18+ months before you're there.</p>
+
+<p>If you're genuinely growing fast — launching to an existing audience, running paid acquisition, working a content distribution flywheel — price at scale matters now. In that case, flat-rate pricing models like Flodesk ($38/month regardless of list size) deserve a real look, with the caveat that Flodesk's segmentation and automation depth is limited.</p>
+
+<h3>3. Do you have a product to sell through the list, or are you building the list first?</h3>
+
+<p>If you have something to sell and you're building the list to sell it, automation is not optional. You need a platform where tagging subscribers based on behavior, creating purchase-triggered sequences, and excluding buyers from sales emails is native, not bolted on. Kit is the standard recommendation here. It's not cheap relative to free, but the $29/month starting tier is money you will feel in your business if you use it properly.</p>
+
+<p>If you're building the list first and the monetization is still forming, Beehiiv or MailerLite's free tier gives you room to grow without bad habits. MailerLite has surprisingly strong automation for a free plan and a clean migration path when you're ready to move.</p>
+<div class="ask-ai-block">
+      <div class="ask-ai-header">
+        <span class="ask-ai-label">Ask AI</span>
+        <span class="ask-ai-instruction">Copy this prompt. Paste it into your AI assistant.</span>
+      </div>
+      <div class="ask-ai-prompt">I need to pick an email platform. My situation: I'm primarily building <span class="bracket">[a newsletter audience / a purchase funnel / both]</span>. I currently have <span class="bracket">[list size or zero]</span> subscribers and I'm adding roughly <span class="bracket">[estimate per month]</span> new ones. I <span class="bracket">[have / don't have]</span> a product or service I'm selling through the list right now. My monthly budget for email tools is <span class="bracket">[amount, or "as little as possible right now"]</span>. Based on this, which platform makes the most sense and what should I prioritize in the setup?</div>
+      <div class="ask-ai-footer">
+        <span class="ask-ai-note">Fill in the brackets. The more specific, the more useful the answer.</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt →</button>
+      </div>
+    </div>
+
+<h2>The actual recommendations</h2>
+
+<p>Starting with a newsletter, not yet selling anything: Beehiiv free tier. It's built for this. Grow there until you have a product or service to sell, then evaluate whether to migrate or stay.</p>
+
+<p>Starting with a product and a small list: Kit at the paid tier. The $29/month is the most defensible early spend in your marketing stack if you're using the automations. The free tier is usable but won't show you what Kit actually does.</p>
+
+<p>Building a simple funnel, cost-sensitive, growth is slow: MailerLite free plan. The automation is better than most people know. Upgrade to paid when you're ready.</p>
+
+<p>Growing fast, simple communication, not complex sequences: Flodesk flat rate. Know what you're trading: great design, limited segmentation. Don't use it if tagging and behavioral triggers matter to your model.</p>
+
+<p>Already on Mailchimp, not sure if you should migrate: check whether you've actually built automations and sequences in it. If you're mostly using it for broadcast emails, the migration cost is low. If you've built a real sequence structure, the migration cost is the rebuild. Plan a weekend for it and stop putting it off.</p>
+<div class="tool-rec">
+      <div class="tool-rec-header">
+        <span class="tool-rec-label">Recommended tool</span>
+        <span class="tool-rec-disclosure">Affiliate link</span>
+      </div>
+      <div class="tool-rec-body">
+        <div class="tool-name">Kit (formerly ConvertKit)</div>
+        <div class="tool-desc">The platform recommendation for bootstrapped founders who have something to sell. Tag-based segmentation, purchase-triggered sequences, and subscriber journey mapping are native — not bolted on. Start on the paid tier to see what it actually does.</div>
+        <div class="tool-tags"><span class="tool-tag">Email</span><span class="tool-tag">Automation</span><span class="tool-tag">Tagging</span><span class="tool-tag">From $29/mo</span></div>
+        <a href="#" class="tool-cta">Visit Kit →</a>
+      </div>
+    </div>
+<div class="platform-tiers">
+  <div class="platform-tier"><div class="tier-label">Audience-first</div><div class="tier-tools">Beehiiv · Kit</div></div>
+  <div class="platform-tier"><div class="tier-label">Funnel-first</div><div class="tier-tools">Kit · MailerLite · Drip</div></div>
+  <div class="platform-tier"><div class="tier-label">High volume, simple</div><div class="tier-tools">Flodesk (flat rate, limited segmentation)</div></div>
+  <div class="platform-tier tier-caution"><div class="tier-label">Will fight you</div><div class="tier-tools">Mailchimp free tier beyond basic broadcast</div></div>
+</div>
+<p>The platform decision is reversible. The habits you build on it are harder to undo.</p>
+
+  </div>
+  <div class="diag-band">
+    <div class="diag-overline">Free tool · No email required</div>
+    <div class="diag-headline">Not sure where<br>your marketing<br>is leaking?</div>
+    <div class="diag-sub">5 minutes. Opens directly in your AI assistant. Get a specific answer for your specific situation.</div>
+    <a href="#" class="btn-inverse">Take the Diagnostic →</a>
+  </div>
+  <div class="related-section">
+    <div class="related-label">Related</div>
+    <a href="article-email-list.html" class="related-item">
+      <div class="related-type">Diagnostic</div>
+      <div class="related-title">Why Your Email List Isn't Making You Money</div>
+      <div class="related-desc">Your list has subscribers. People open. Nobody buys. Here's the framework.</div>
+    </a><a href="article-bookkeeping.html" class="related-item">
+      <div class="related-type">Comparison</div>
+      <div class="related-title">Wave vs. FreshBooks vs. QuickBooks: Which One Actually Makes Sense at Your Stage</div>
+      <div class="related-desc">Not a feature table. An honest breakdown by business model and stage.</div>
+    </a><a href="index.html" class="related-item">
+      <div class="related-type">Guide</div>
+      <div class="related-title">When to Migrate Off Your Current Tool</div>
+      <div class="related-desc">The migration cost everyone's afraid of is real. Here's how to know when it's actually worth it.</div>
+    </a>
+  </div>
+</article>
+<script>
+  function copyPrompt(btn) {
+    const prompt = btn.closest('.ask-ai-block').querySelector('.ask-ai-prompt').innerText;
+    navigator.clipboard.writeText(prompt).then(() => {
+      btn.textContent = 'Copied ✓';
+      btn.style.borderColor = 'var(--steel-teal)';
+      btn.style.color = 'var(--steel-teal)';
+      setTimeout(() => { btn.textContent = 'Copy prompt →'; btn.style.borderColor = ''; btn.style.color = ''; }, 2000);
+    }).catch(() => { btn.textContent = 'Copied ✓'; setTimeout(() => { btn.textContent = 'Copy prompt →'; }, 2000); });
+  }
+</script>
+</body>
+</html>

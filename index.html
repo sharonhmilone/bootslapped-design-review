@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bootslapped — Marketing for founders who figure it out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Oswald:wght@700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  :root {
+    --soot:       #0D0D0D;
+    --cinder:     #141414;
+    --ash:        #2A2A2A;
+    --bone:       #F0EDE6;
+    --dust:       #9E9893;
+    --brick:      #C45C44;
+    --kiln:       #D96B51;
+    --brick-tint: rgba(196,92,68,0.12);
+    --steel-teal: #4A9B8E;
+  }
+
+  html, body { background-color: #0D0D0D !important; background: #0D0D0D !important; color: #F0EDE6; }
+
+  body {
+    font-family: 'DM Mono', 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.032;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 500;
+    background: rgba(13,13,13,0.96);
+    border-bottom: 1px solid var(--ash);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px; height: 52px;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700; font-size: 20px;
+    color: var(--brick); text-decoration: none; letter-spacing: 0.01em;
+  }
+
+  .nav-right { display: flex; align-items: center; gap: 20px; }
+
+  .nav-links { display: none; gap: 28px; list-style: none; }
+  .nav-links a { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dust); text-decoration: none; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--bone); }
+
+  .nav-cta {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--brick); text-decoration: none; border: 1px solid var(--brick); padding: 6px 12px; white-space: nowrap; transition: all 0.15s;
+  }
+  .nav-cta:hover { background: var(--brick); color: var(--bone); }
+
+  /* HERO */
+  .hero { border-bottom: 1px solid var(--ash); }
+
+  .hero-main { padding: 48px 20px 40px; border-bottom: 1px solid var(--ash); display: flex; flex-direction: column; gap: 24px; }
+
+  .hero-eyebrow { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dust); }
+
+  .hero-headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: clamp(52px, 12vw, 108px);
+    line-height: 0.97; letter-spacing: -0.01em; color: var(--bone);
+  }
+
+  .hero-headline .accent { color: var(--brick); display: block; font-weight: 700; letter-spacing: 0em; }
+
+  .hero-sub { font-size: 13px; color: var(--dust); line-height: 1.7; max-width: 480px; }
+
+  .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+
+  .btn-primary {
+    display: inline-block; background: var(--brick); color: var(--bone);
+    font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.06em;
+    padding: 12px 22px; text-decoration: none; transition: background 0.15s;
+  }
+  .btn-primary:hover { background: var(--kiln); }
+
+  .btn-text { font-size: 12px; color: var(--dust); text-decoration: none; border-bottom: 1px solid var(--ash); padding-bottom: 2px; transition: color 0.15s, border-color 0.15s; }
+  .btn-text:hover { color: var(--bone); border-color: var(--bone); }
+
+  /* TOOL FINDER */
+  .tool-finder { padding: 32px 20px; border-bottom: 1px solid var(--ash); }
+
+  .section-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dust); margin-bottom: 24px; padding-bottom: 14px; border-bottom: 1px solid var(--ash); }
+
+  .tool-category { border-bottom: 1px solid var(--ash); padding: 14px 0; }
+  .tool-category:last-child { border-bottom: none; }
+  .tool-category-name { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dust); margin-bottom: 10px; }
+  .tool-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tool-pill { font-size: 12px; color: var(--bone); border: 1px solid var(--ash); padding: 5px 11px; text-decoration: none; opacity: 0.7; transition: border-color 0.15s, color 0.15s, opacity 0.15s; }
+  .tool-pill:hover { border-color: var(--brick); color: var(--brick); opacity: 1; }
+
+  /* TICKER */
+  .ticker { background: var(--cinder); border-bottom: 1px solid var(--ash); overflow: hidden; padding: 10px 0; white-space: nowrap; }
+  .ticker-track { display: inline-flex; animation: ticker 30s linear infinite; }
+  .ticker-item { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dust); padding: 0 28px; flex-shrink: 0; }
+  .ticker-item span { color: var(--brick); margin-right: 10px; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* BROWSE STRIP */
+  .browse-strip { border-bottom: 1px solid var(--ash); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .browse-strip::-webkit-scrollbar { display: none; }
+  .browse-strip-inner { display: flex; padding: 0 20px; min-width: max-content; }
+  .browse-item { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dust); text-decoration: none; padding: 14px 20px; border-right: 1px solid var(--ash); white-space: nowrap; transition: color 0.15s; flex-shrink: 0; }
+  .browse-item:first-child { padding-left: 0; }
+  .browse-item:hover { color: var(--bone); }
+  .browse-item.active { color: var(--bone); border-bottom: 2px solid var(--brick); }
+
+  /* CONTENT SECTION */
+  .content-section { border-bottom: 1px solid var(--ash); }
+  .content-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 20px 0; }
+  .content-header-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dust); }
+  .view-all { font-size: 11px; color: var(--brick); text-decoration: none; transition: color 0.15s; }
+  .view-all:hover { color: var(--kiln); }
+
+  /* ARTICLE ROWS */
+  .article-list { display: flex; flex-direction: column; }
+
+  .article-row { display: block; text-decoration: none; color: inherit; padding: 24px 20px; border-top: 1px solid var(--ash); transition: background 0.15s; position: relative; }
+  .article-row:hover { background: var(--cinder); }
+
+  .article-row-type { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brick); margin-bottom: 6px; }
+
+  .article-row-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 22px; line-height: 1.05; letter-spacing: 0em;
+    color: var(--bone); margin-bottom: 6px; opacity: 0.88;
+  }
+
+  .article-row-desc { font-size: 12px; color: var(--dust); line-height: 1.55; }
+  .article-row-meta { font-size: 10px; color: var(--dust); margin-top: 10px; letter-spacing: 0.04em; }
+
+  /* DIAGNOSTIC BAND */
+  .diag-band { background: var(--brick); padding: 40px 20px; border-bottom: 1px solid rgba(0,0,0,0.2); position: relative; overflow: hidden; }
+
+  .diag-band::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.07; pointer-events: none;
+  }
+
+  .diag-overline { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(240,237,230,0.6); margin-bottom: 10px; position: relative; }
+
+  .diag-headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: clamp(36px, 9vw, 62px);
+    line-height: 1.0; letter-spacing: -0.01em;
+    color: var(--bone); margin-bottom: 14px; position: relative;
+  }
+
+  .diag-sub { font-size: 12px; color: rgba(240,237,230,0.72); line-height: 1.65; margin-bottom: 22px; max-width: 420px; position: relative; }
+
+  .diag-steps { display: flex; flex-direction: column; margin-bottom: 24px; position: relative; }
+  .diag-step { display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px solid rgba(240,237,230,0.15); align-items: baseline; }
+  .diag-step:last-child { border-bottom: none; }
+  .step-num { font-size: 10px; color: rgba(240,237,230,0.5); flex-shrink: 0; }
+  .step-text { font-size: 12px; color: rgba(240,237,230,0.85); line-height: 1.5; }
+  .step-text strong { color: var(--bone); font-weight: 500; display: block; }
+
+  .btn-inverse { display: inline-block; background: var(--bone); color: var(--soot); font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.06em; padding: 12px 22px; text-decoration: none; position: relative; transition: background 0.15s; }
+  .btn-inverse:hover { background: #fff; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--ash); padding: 40px 20px 56px; background: var(--soot); }
+
+  .footer-logo { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 28px; color: var(--brick); display: block; margin-bottom: 8px; text-decoration: none; letter-spacing: 0.01em; }
+
+  .footer-tagline { font-size: 12px; color: var(--dust); line-height: 1.6; margin-bottom: 32px; max-width: 320px; }
+
+  .footer-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; border-top: 1px solid var(--ash); padding-top: 28px; }
+  .footer-col-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dust); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--ash); }
+  .footer-link { display: block; font-size: 12px; color: var(--dust); text-decoration: none; padding: 7px 0; border-bottom: 1px solid var(--ash); transition: color 0.15s; }
+  .footer-link:last-child { border-bottom: none; }
+  .footer-link:hover { color: var(--bone); }
+
+  /* DESKTOP */
+  @media (min-width: 900px) {
+    nav { padding: 0 32px; }
+    .nav-links { display: flex; }
+
+    .hero { display: grid; grid-template-columns: 1fr 1fr; }
+    .hero-main { padding: 72px 48px 64px 32px; border-bottom: none; border-right: 1px solid var(--ash); justify-content: space-between; }
+    .tool-finder { padding: 48px 32px 48px 48px; border-bottom: none; }
+
+    .content-section { display: grid; grid-template-columns: 220px 1fr; }
+    .content-sidebar { border-right: 1px solid var(--ash); padding: 32px; }
+    .content-sidebar-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dust); margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--ash); }
+    .sidebar-filter { display: block; font-size: 12px; color: var(--dust); text-decoration: none; padding: 9px 0; border-bottom: 1px solid var(--ash); transition: color 0.15s; }
+    .sidebar-filter:hover { color: var(--bone); }
+    .sidebar-filter.active { color: var(--bone); }
+    .sidebar-filter.active::before { content: '→ '; color: var(--brick); }
+    .content-main { flex: 1; }
+    .content-header { padding: 24px 32px 0; }
+
+    .article-row { padding: 28px 32px; display: grid; grid-template-columns: 72px 1fr 100px; align-items: start; }
+    .article-row-meta { text-align: right; margin-top: 0; }
+    .article-row:hover::after { content: '→'; position: absolute; right: 32px; top: 50%; transform: translateY(-50%); color: var(--brick); font-size: 18px; }
+
+    .diag-band { display: grid; grid-template-columns: 1fr 1fr; padding: 0; }
+    .diag-left { padding: 56px 48px 56px 32px; border-right: 1px solid rgba(0,0,0,0.15); display: flex; flex-direction: column; justify-content: space-between; }
+    .diag-right { padding: 56px 32px 56px 48px; display: flex; flex-direction: column; justify-content: space-between; }
+    .diag-steps { margin-bottom: 0; }
+
+    .footer-cols { grid-template-columns: 1fr 1fr 1fr; }
+  }
+
+  @media (min-width: 1200px) {
+    .hero-main { padding: 80px 56px 72px 40px; }
+    .tool-finder { padding: 56px 40px 56px 56px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">bootslapped</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#">Tools</a></li>
+      <li><a href="#">Guides</a></li>
+      <li><a href="#">Compare</a></li>
+      <li><a href="#">Diagnostics</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Free Diagnostic →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-main">
+    <div class="hero-eyebrow">Marketing resource for bootstrapped founders</div>
+    <div>
+      <h1 class="hero-headline">Marketing<br>for founders<br>who<span class="accent">figure<br>it out.</span></h1>
+      <p class="hero-sub">No agency. No budget. No BS. Tool comparisons, decision guides, and diagnostic frameworks for operators without a team to delegate to.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn-primary">Take the Free Diagnostic →</a>
+        <a href="#" class="btn-text">Browse tools</a>
+      </div>
+    </div>
+  </div>
+  <div class="tool-finder">
+    <div class="section-label">Find the right tool for the job</div>
+    <div class="tool-category">
+      <div class="tool-category-name">Email Marketing</div>
+      <div class="tool-pills">
+        <a href="#" class="tool-pill">Mailchimp vs Klaviyo</a>
+        <a href="#" class="tool-pill">ConvertKit vs Beehiiv</a>
+        <a href="#" class="tool-pill">MailerLite vs Flodesk</a>
+      </div>
+    </div>
+    <div class="tool-category">
+      <div class="tool-category-name">Landing Pages</div>
+      <div class="tool-pills">
+        <a href="#" class="tool-pill">Carrd vs Webflow</a>
+        <a href="#" class="tool-pill">Unbounce vs Leadpages</a>
+      </div>
+    </div>
+    <div class="tool-category">
+      <div class="tool-category-name">Analytics</div>
+      <div class="tool-pills">
+        <a href="#" class="tool-pill">GA4 vs Plausible</a>
+        <a href="#" class="tool-pill">Hotjar vs Clarity</a>
+      </div>
+    </div>
+    <div class="tool-category">
+      <div class="tool-category-name">Automation</div>
+      <div class="tool-pills">
+        <a href="#" class="tool-pill">Zapier vs Make</a>
+        <a href="#" class="tool-pill">n8n vs Zapier</a>
+      </div>
+    </div>
+    <div class="tool-category">
+      <div class="tool-category-name">Bookkeeping</div>
+      <div class="tool-pills">
+        <a href="#" class="tool-pill">Wave vs FreshBooks</a>
+        <a href="#" class="tool-pill">Wave vs QuickBooks</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item"><span>Diagnostic</span>Why your email list isn't making money</span>
+    <span class="ticker-item"><span>Guide</span>How to pick an email platform</span>
+    <span class="ticker-item"><span>Comparison</span>Wave vs FreshBooks vs QuickBooks</span>
+    <span class="ticker-item"><span>Diagnostic</span>Why your content gets traffic but nobody buys</span>
+    <span class="ticker-item"><span>Comparison</span>Zapier vs Make for solo operators</span>
+    <span class="ticker-item"><span>Guide</span>When to migrate off your current tool</span>
+    <span class="ticker-item"><span>Diagnostic</span>Why your email list isn't making money</span>
+    <span class="ticker-item"><span>Guide</span>How to pick an email platform</span>
+    <span class="ticker-item"><span>Comparison</span>Wave vs FreshBooks vs QuickBooks</span>
+    <span class="ticker-item"><span>Diagnostic</span>Why your content gets traffic but nobody buys</span>
+    <span class="ticker-item"><span>Comparison</span>Zapier vs Make for solo operators</span>
+    <span class="ticker-item"><span>Guide</span>When to migrate off your current tool</span>
+  </div>
+</div>
+
+<div class="browse-strip">
+  <div class="browse-strip-inner">
+    <a href="#" class="browse-item active">All</a>
+    <a href="#" class="browse-item">Diagnostics</a>
+    <a href="#" class="browse-item">Guides</a>
+    <a href="#" class="browse-item">Comparisons</a>
+  </div>
+</div>
+
+<section class="content-section">
+  <div class="content-sidebar" style="display:none;">
+    <div class="content-sidebar-label">Browse by type</div>
+    <a href="#" class="sidebar-filter active">All</a>
+    <a href="#" class="sidebar-filter">Diagnostics</a>
+    <a href="#" class="sidebar-filter">Guides</a>
+    <a href="#" class="sidebar-filter">Comparisons</a>
+  </div>
+  <div class="content-main">
+    <div class="content-header">
+      <span class="content-header-label">Latest</span>
+      <a href="#" class="view-all">View all →</a>
+    </div>
+    <div class="article-list">
+
+      <a href="article-email-list.html" class="article-row">
+        <div class="article-row-type">Diagnostic</div>
+        <div class="article-row-body">
+          <div class="article-row-title">Why Your Email List Isn't Making You Money</div>
+          <div class="article-row-desc">Your list has subscribers. People open. Nobody buys. Here's the framework for figuring out which of three structural problems is actually yours.</div>
+          <div class="article-row-meta">Email · 10 min</div>
+        </div>
+      </a>
+
+      <a href="article-email-platform.html" class="article-row">
+        <div class="article-row-type">Guide</div>
+        <div class="article-row-body">
+          <div class="article-row-title">How to Pick an Email Platform You Won't Migrate Off In a Year</div>
+          <div class="article-row-desc">The free tier didn't save you money. It deferred the cost and added interest. Here's how to make the call that actually sticks.</div>
+          <div class="article-row-meta">Email · 12 min</div>
+        </div>
+      </a>
+
+      <a href="article-bookkeeping.html" class="article-row">
+        <div class="article-row-type">Comparison</div>
+        <div class="article-row-body">
+          <div class="article-row-title">Wave vs. FreshBooks vs. QuickBooks: Which One Actually Makes Sense at Your Stage</div>
+          <div class="article-row-desc">Not a feature table. An honest breakdown by business model and what your bookkeeping needs to do right now.</div>
+          <div class="article-row-meta">Bookkeeping · 12 min</div>
+        </div>
+      </a>
+
+      <a href="#" class="article-row">
+        <div class="article-row-type">Comparison</div>
+        <div class="article-row-body">
+          <div class="article-row-title">Zapier vs Make: The Honest Breakdown for Founders Who Hate Overpaying</div>
+          <div class="article-row-desc">Task limits, pricing traps, and which one wins for lean operators who automate one thing at a time.</div>
+          <div class="article-row-meta">Automation · 9 min</div>
+        </div>
+      </a>
+
+      <a href="#" class="article-row">
+        <div class="article-row-type">Diagnostic</div>
+        <div class="article-row-body">
+          <div class="article-row-title">Why Your Content Gets Traffic but Nobody's Buying</div>
+          <div class="article-row-desc">Traffic without conversion is not an SEO win. It's a signal something in the pathway is broken.</div>
+          <div class="article-row-meta">Content · 7 min</div>
+        </div>
+      </a>
+
+      <a href="#" class="article-row">
+        <div class="article-row-type">Guide</div>
+        <div class="article-row-body">
+          <div class="article-row-title">When to Migrate Off Your Current Tool</div>
+          <div class="article-row-desc">The migration cost everyone's afraid of is real. Here's how to know when it's actually worth it — and how to make it take one weekend, not a month.</div>
+          <div class="article-row-meta">Tools · 8 min</div>
+        </div>
+      </a>
+
+      <a href="#" class="article-row">
+        <div class="article-row-type">Diagnostic</div>
+        <div class="article-row-body">
+          <div class="article-row-title">Why Your Landing Page Gets Clicks but Nobody Converts</div>
+          <div class="article-row-desc">The headline isn't the problem. The offer isn't the problem. Here's what's actually breaking the conversion.</div>
+          <div class="article-row-meta">Landing Pages · 7 min</div>
+        </div>
+      </a>
+
+      <a href="#" class="article-row">
+        <div class="article-row-type">Comparison</div>
+        <div class="article-row-body">
+          <div class="article-row-title">GA4 vs Plausible: Which One Is Actually Worth Your Time</div>
+          <div class="article-row-desc">GA4 is free and overwhelming. Plausible costs money and takes five minutes to understand. Here's how to decide.</div>
+          <div class="article-row-meta">Analytics · 8 min</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section class="diag-band">
+  <div class="diag-left">
+    <div>
+      <div class="diag-overline">Free tool · No email required</div>
+      <h2 class="diag-headline">Not sure<br>where your<br>marketing<br>is leaking?</h2>
+    </div>
+    <div>
+      <p class="diag-sub">5 minutes. Opens directly in your AI assistant. Get a specific answer for your specific situation — not a checklist.</p>
+      <a href="#" class="btn-inverse">Take the Diagnostic →</a>
+    </div>
+  </div>
+  <div class="diag-right">
+    <div class="diag-overline">What it covers</div>
+    <div class="diag-steps">
+      <div class="diag-step"><span class="step-num">01</span><div class="step-text"><strong>Where you actually are</strong>Stage, revenue range, what's working and what isn't</div></div>
+      <div class="diag-step"><span class="step-num">02</span><div class="step-text"><strong>Which failure mode fits</strong>Audience, structure, conversion, or distribution</div></div>
+      <div class="diag-step"><span class="step-num">03</span><div class="step-text"><strong>The specific fix</strong>Not a checklist. A prioritized action for your exact setup.</div></div>
+      <div class="diag-step"><span class="step-num">04</span><div class="step-text"><strong>Tool recommendations if relevant</strong>Only when a tool is actually part of the fix</div></div>
+    </div>
+    <a href="#" class="btn-inverse mobile-btn" style="display:none;">Take the Diagnostic →</a>
+  </div>
+</section>
+
+<footer>
+  <a href="#" class="footer-logo">bootslapped</a>
+  <p class="footer-tagline">Marketing resource for bootstrapped founders. No agency. No budget. No BS.</p>
+  <div class="footer-cols">
+    <div>
+      <div class="footer-col-label">Content</div>
+      <a href="#" class="footer-link">Diagnostics</a>
+      <a href="#" class="footer-link">Guides</a>
+      <a href="#" class="footer-link">Comparisons</a>
+      <a href="#" class="footer-link">Free Diagnostic</a>
+    </div>
+    <div>
+      <div class="footer-col-label">Tools by category</div>
+      <a href="#" class="footer-link">Email Marketing</a>
+      <a href="#" class="footer-link">Landing Pages</a>
+      <a href="#" class="footer-link">Analytics</a>
+      <a href="#" class="footer-link">Automation</a>
+      <a href="#" class="footer-link">Bookkeeping</a>
+    </div>
+    <div>
+      <div class="footer-col-label">More</div>
+      <a href="#" class="footer-link">About</a>
+      <a href="#" class="footer-link">Affiliate disclosure</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function handleLayout() {
+    const desk = window.innerWidth >= 900
+    document.querySelector('.content-sidebar').style.display = desk ? 'block' : 'none'
+    document.querySelector('.mobile-btn').style.display = desk ? 'none' : 'inline-block'
+  }
+  handleLayout()
+  window.addEventListener('resize', handleLayout)
+  document.querySelectorAll('.browse-item').forEach(item => {
+    item.addEventListener('click', e => {
+      e.preventDefault()
+      document.querySelectorAll('.browse-item').forEach(i => i.classList.remove('active'))
+      item.classList.add('active')
+    })
+  })
+</script>
+</body>
+</html>
