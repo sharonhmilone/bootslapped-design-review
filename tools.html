@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tools — Bootslapped</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Oswald:wght@700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  :root {
+    --soot:       #0D0D0D;
+    --cinder:     #141414;
+    --ash:        #2A2A2A;
+    --bone:       #F0EDE6;
+    --dust:       #9E9893;
+    --brick:      #C45C44;
+    --kiln:       #D96B51;
+    --brick-tint: rgba(196,92,68,0.12);
+    --steel-teal: #4A9B8E;
+  }
+
+  html, body { background-color: var(--soot); color: var(--bone); }
+  body { font-family: 'DM Mono', 'Courier New', Courier, monospace; font-size: 14px; line-height: 1.7; overflow-x: hidden; min-height: 100vh; }
+  body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); opacity: 0.032; pointer-events: none; z-index: 9999; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 500; background: rgba(13,13,13,0.96); border-bottom: 1px solid var(--ash); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; height: 52px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .nav-logo { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 20px; color: var(--brick); text-decoration: none; letter-spacing: 0.01em; }
+  .nav-right { display: flex; align-items: center; gap: 20px; }
+  .nav-links { display: none; gap: 28px; list-style: none; }
+  .nav-links a { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dust); text-decoration: none; transition: color 0.15s; }
+  .nav-links a:hover { color: var(--bone); }
+  .nav-cta { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brick); text-decoration: none; border: 1px solid var(--brick); padding: 6px 14px; white-space: nowrap; transition: all 0.15s; }
+  .nav-cta:hover { background: var(--brick); color: var(--bone); }
+
+  /* PAGE HEADER */
+  .page-header { padding: 40px 20px 28px; border-bottom: 1px solid var(--ash); }
+  .page-eyebrow { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dust); margin-bottom: 12px; }
+  .page-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: clamp(40px, 8vw, 72px); line-height: 0.97; letter-spacing: -0.01em; color: var(--bone); margin-bottom: 14px; }
+  .page-sub { font-size: 13px; color: var(--dust); line-height: 1.7; max-width: 520px; }
+
+  /* SECTION LABEL — shared utility */
+  .section-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dust); padding: 18px 20px 14px; border-bottom: 1px solid var(--ash); }
+
+  /* ─── FEATURED DEALS ─── */
+  /* AppSumo-esque: prominent cards, affiliate/partner context clearly labeled */
+  .featured-section { border-bottom: 1px solid var(--ash); }
+
+  .featured-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 14px; border-bottom: 1px solid var(--ash); }
+  .featured-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dust); }
+  .featured-disclosure { font-size: 10px; color: var(--dust); font-style: italic; }
+
+  .featured-grid { display: flex; flex-direction: column; }
+
+  /* Each featured card: full-bleed row with internal structure */
+  .featured-card { display: block; text-decoration: none; color: inherit; padding: 24px 20px; border-bottom: 1px solid var(--ash); background: var(--cinder); transition: background 0.15s; position: relative; }
+  .featured-card:last-child { border-bottom: none; }
+  .featured-card:hover { background: #1c1c1c; }
+
+  .featured-card-inner { display: flex; flex-direction: column; gap: 12px; }
+  .featured-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .featured-card-identity { flex: 1; }
+
+  .featured-card-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 28px; line-height: 1.0; letter-spacing: -0.005em; color: var(--bone); margin-bottom: 4px; }
+  .featured-card-category { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brick); }
+
+  .featured-card-deal { text-align: right; flex-shrink: 0; }
+  .deal-badge { display: inline-block; background: var(--brick); color: var(--bone); font-size: 11px; letter-spacing: 0.06em; padding: 4px 10px; margin-bottom: 4px; }
+  .deal-pricing { font-size: 11px; color: var(--dust); line-height: 1.4; }
+
+  .featured-card-desc { font-size: 13px; color: var(--bone); opacity: 0.75; line-height: 1.7; }
+  .featured-card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .featured-tag { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dust); border: 1px solid var(--ash); padding: 3px 8px; }
+
+  .featured-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--ash); }
+  .featured-card-cta { font-size: 11px; letter-spacing: 0.06em; color: var(--brick); }
+  .featured-card-note { font-size: 10px; color: var(--dust); font-style: italic; }
+
+  /* ─── FEATURE SPOTLIGHT ─── */
+  /* One more descriptive feature slot — editorial, not just a card */
+  .spotlight-section { border-bottom: 1px solid var(--ash); }
+  .spotlight-header { padding: 18px 20px 14px; border-bottom: 1px solid var(--ash); display: flex; align-items: center; justify-content: space-between; }
+  .spotlight-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--steel-teal); }
+  .spotlight-disclosure { font-size: 10px; color: var(--dust); font-style: italic; }
+
+  .spotlight-body { padding: 28px 20px; }
+  .spotlight-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: clamp(32px, 6vw, 48px); line-height: 1.0; letter-spacing: -0.005em; color: var(--bone); margin-bottom: 6px; }
+  .spotlight-category { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brick); margin-bottom: 16px; }
+  .spotlight-desc { font-size: 14px; color: var(--bone); opacity: 0.82; line-height: 1.75; margin-bottom: 20px; max-width: 640px; }
+  .spotlight-detail { font-size: 12px; color: var(--dust); line-height: 1.7; max-width: 640px; margin-bottom: 24px; }
+  .spotlight-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+  .spotlight-tag { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dust); border: 1px solid var(--ash); padding: 3px 8px; }
+  .spotlight-footer { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; padding-top: 20px; border-top: 1px solid var(--ash); }
+  .btn-primary { display: inline-block; background: var(--brick); color: var(--bone); font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.06em; padding: 12px 22px; text-decoration: none; transition: background 0.15s; }
+  .btn-primary:hover { background: var(--kiln); }
+  .spotlight-pricing { font-size: 12px; color: var(--dust); }
+
+  /* ─── COMPARE BY CATEGORY ─── */
+  /* Moved here from homepage */
+  .compare-section { border-bottom: 1px solid var(--ash); }
+  .tool-category { border-bottom: 1px solid var(--ash); padding: 14px 20px; }
+  .tool-category:last-child { border-bottom: none; }
+  .tool-category-name { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dust); margin-bottom: 10px; }
+  .tool-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tool-pill { font-size: 12px; color: var(--bone); border: 1px solid var(--ash); padding: 5px 11px; text-decoration: none; opacity: 0.7; transition: border-color 0.15s, color 0.15s, opacity 0.15s; }
+  .tool-pill:hover { border-color: var(--brick); color: var(--brick); opacity: 1; }
+
+  /* ─── TOOL DIRECTORY ─── */
+  /* Full list: ruled rows, category grouping */
+  .directory-section { }
+  .directory-category-header { padding: 16px 20px 12px; border-bottom: 1px solid var(--ash); border-top: 1px solid var(--ash); background: var(--cinder); }
+  .directory-category-name { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bone); }
+
+  .directory-row { display: block; text-decoration: none; color: inherit; padding: 18px 20px; border-bottom: 1px solid var(--ash); transition: background 0.15s; position: relative; }
+  .directory-row:hover { background: var(--cinder); }
+  .directory-row-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 20px; line-height: 1.1; color: var(--bone); opacity: 0.88; margin-bottom: 3px; }
+  .directory-row-desc { font-size: 12px; color: var(--dust); line-height: 1.5; }
+  .directory-row-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .directory-row-tag { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dust); border: 1px solid var(--ash); padding: 2px 7px; }
+  .directory-row-affiliate { font-size: 10px; color: var(--brick); font-style: italic; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--ash); padding: 40px 20px 56px; }
+  .footer-logo { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 28px; color: var(--brick); display: block; margin-bottom: 6px; text-decoration: none; letter-spacing: 0.01em; }
+  .footer-tagline { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 0.01em; color: var(--bone); opacity: 0.5; line-height: 1.2; margin-bottom: 32px; }
+  .footer-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; border-top: 1px solid var(--ash); padding-top: 28px; }
+  .footer-col-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dust); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--ash); }
+  .footer-link { display: block; font-size: 12px; color: var(--dust); text-decoration: none; padding: 7px 0; border-bottom: 1px solid var(--ash); transition: color 0.15s; }
+  .footer-link:last-child { border-bottom: none; }
+  .footer-link:hover { color: var(--bone); }
+
+  /* DESKTOP */
+  @media (min-width: 900px) {
+    nav { padding: 0 32px; }
+    .nav-links { display: flex; }
+
+    .page-header { padding: 56px 32px 36px; }
+    .section-label { padding: 20px 32px 16px; }
+    .featured-header { padding: 20px 32px 16px; }
+    .spotlight-header { padding: 20px 32px 16px; }
+
+    /* Featured grid: 3-up on desktop */
+    .featured-grid { flex-direction: row; }
+    .featured-card { flex: 1; border-bottom: none; border-right: 1px solid var(--ash); }
+    .featured-card:last-child { border-right: none; }
+
+    .spotlight-body { padding: 40px 32px; display: grid; grid-template-columns: 1fr 280px; gap: 48px; align-items: start; }
+    .spotlight-main { }
+    .spotlight-sidebar { padding-top: 8px; }
+    .spotlight-footer { border-top: none; padding-top: 0; flex-direction: column; align-items: flex-start; }
+    .spotlight-sidebar-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dust); margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--ash); }
+    .spotlight-sidebar-item { padding: 10px 0; border-bottom: 1px solid var(--ash); font-size: 12px; color: var(--dust); line-height: 1.5; }
+    .spotlight-sidebar-item:last-child { border-bottom: none; }
+    .spotlight-sidebar-item strong { color: var(--bone); font-weight: 400; display: block; font-size: 12px; }
+
+    /* Compare: label left, categories right */
+    .compare-section { display: grid; grid-template-columns: 200px 1fr; }
+    .compare-label { border-right: 1px solid var(--ash); border-bottom: none; padding: 24px 28px; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dust); }
+    .compare-content .tool-category { padding: 14px 32px; }
+
+    /* Directory rows: wider padding */
+    .directory-category-header { padding: 14px 32px 12px; }
+    .directory-row { padding: 18px 32px; display: grid; grid-template-columns: 200px 1fr auto; gap: 20px; align-items: start; }
+    .directory-row-name { margin-bottom: 0; }
+    .directory-row-desc { font-size: 12px; }
+    .directory-row-meta { margin-top: 0; justify-content: flex-end; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .directory-row:hover::after { content: '→'; position: absolute; right: 32px; top: 50%; transform: translateY(-50%); color: var(--brick); font-size: 16px; }
+
+    .footer-cols { grid-template-columns: 1fr 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">bootslapped</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="tools.html">Tools</a></li>
+      <li><a href="#">Guides</a></li>
+      <li><a href="#">Compare</a></li>
+      <li><a href="#">Diagnostics</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Free Diagnostic →</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-eyebrow">Tools</div>
+  <h1 class="page-title">The right tool<br>for the job</h1>
+  <p class="page-sub">Featured picks, honest comparisons, and a full directory — sorted by what bootstrapped businesses actually need at each stage.</p>
+</div>
+
+<!-- FEATURED DEALS — affiliate/partner tools, swappable entries -->
+<section class="featured-section">
+  <div class="featured-header">
+    <span class="featured-label">Featured</span>
+    <span class="featured-disclosure">Affiliate links — doesn't change the recommendation</span>
+  </div>
+  <div class="featured-grid">
+
+    <!-- Swap these entries per affiliate/partner deal — structured for easy Astro templating -->
+    <a href="#" class="featured-card">
+      <div class="featured-card-inner">
+        <div class="featured-card-top">
+          <div class="featured-card-identity">
+            <div class="featured-card-name">Kit</div>
+            <div class="featured-card-category">Email Marketing</div>
+          </div>
+          <div class="featured-card-deal">
+            <div class="deal-badge">From $29/mo</div>
+            <div class="deal-pricing">Free up to 10k subs</div>
+          </div>
+        </div>
+        <div class="featured-card-desc">Built for creators and bootstrapped operators who need behavioral automation without enterprise-grade complexity.</div>
+        <div class="featured-card-tags">
+          <span class="featured-tag">Sequences</span>
+          <span class="featured-tag">Segmentation</span>
+          <span class="featured-tag">Commerce</span>
+        </div>
+        <div class="featured-card-footer">
+          <span class="featured-card-cta">Visit Kit →</span>
+          <span class="featured-card-note">Our pick for operators past 0</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="featured-card">
+      <div class="featured-card-inner">
+        <div class="featured-card-top">
+          <div class="featured-card-identity">
+            <div class="featured-card-name">Plausible</div>
+            <div class="featured-card-category">Analytics</div>
+          </div>
+          <div class="featured-card-deal">
+            <div class="deal-badge">From $9/mo</div>
+            <div class="deal-pricing">30-day free trial</div>
+          </div>
+        </div>
+        <div class="featured-card-desc">Privacy-first analytics that takes five minutes to understand. GA4 is free and will eat a week of your life getting it right.</div>
+        <div class="featured-card-tags">
+          <span class="featured-tag">Privacy</span>
+          <span class="featured-tag">Simple</span>
+          <span class="featured-tag">No cookies</span>
+        </div>
+        <div class="featured-card-footer">
+          <span class="featured-card-cta">Visit Plausible →</span>
+          <span class="featured-card-note">Switches in an afternoon</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="featured-card">
+      <div class="featured-card-inner">
+        <div class="featured-card-top">
+          <div class="featured-card-identity">
+            <div class="featured-card-name">Make</div>
+            <div class="featured-card-category">Automation</div>
+          </div>
+          <div class="featured-card-deal">
+            <div class="deal-badge">Free tier</div>
+            <div class="deal-pricing">From $9/mo paid</div>
+          </div>
+        </div>
+        <div class="featured-card-desc">Scenario-based automation with better pricing than Zapier once you pass basic workflows. Steeper learning curve, meaningfully cheaper at scale.</div>
+        <div class="featured-card-tags">
+          <span class="featured-tag">Scenarios</span>
+          <span class="featured-tag">Webhooks</span>
+          <span class="featured-tag">API</span>
+        </div>
+        <div class="featured-card-footer">
+          <span class="featured-card-cta">Visit Make →</span>
+          <span class="featured-card-note">Read our Zapier vs Make breakdown first</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- FEATURE SPOTLIGHT — one deeper editorial pick per cycle -->
+<section class="spotlight-section">
+  <div class="spotlight-header">
+    <span class="spotlight-label">In depth</span>
+    <span class="spotlight-disclosure">Affiliate link</span>
+  </div>
+  <div class="spotlight-body">
+    <div class="spotlight-main">
+      <h2 class="spotlight-name">ActiveCampaign</h2>
+      <div class="spotlight-category">Email Marketing · CRM · Automation</div>
+      <p class="spotlight-desc">When Kit stops being enough, ActiveCampaign is usually the next call. It's not a beginner tool — it assumes you already know what a funnel is and need to build one properly.</p>
+      <p class="spotlight-detail">The CRM integration is what separates it from most email platforms. If you're running any kind of sales process alongside your list — even informally — the ability to tag contacts, track pipeline stage, and trigger sequences off sales activity is where this earns its cost. The pricing is not friendly to tiny lists, which is why this is not the first recommendation. But if you're managing a list past 5k subscribers with real commercial intent and need automations more complex than a single sequence, it's the right move.</p>
+      <div class="spotlight-tags">
+        <span class="spotlight-tag">CRM</span>
+        <span class="spotlight-tag">Automation</span>
+        <span class="spotlight-tag">Sequences</span>
+        <span class="spotlight-tag">Sales pipeline</span>
+        <span class="spotlight-tag">Segmentation</span>
+      </div>
+      <div class="spotlight-footer">
+        <a href="#" class="btn-primary">Visit ActiveCampaign →</a>
+        <span class="spotlight-pricing">From $15/mo · Scales with contacts</span>
+      </div>
+    </div>
+    <!-- Desktop sidebar: quick specs -->
+    <div class="spotlight-sidebar">
+      <div class="spotlight-sidebar-label">Quick specs</div>
+      <div class="spotlight-sidebar-item"><strong>Best for</strong>Operators past 5k subscribers with a sales motion</div>
+      <div class="spotlight-sidebar-item"><strong>Not for</strong>Beginners or list-only newsletter operators</div>
+      <div class="spotlight-sidebar-item"><strong>Migration</strong>Moderate — plan a weekend</div>
+      <div class="spotlight-sidebar-item"><strong>Free tier</strong>No. 14-day trial only.</div>
+      <div class="spotlight-sidebar-item"><strong>Compare</strong>Kit · Drip · HubSpot Starter</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE BY CATEGORY — moved from homepage -->
+<section class="compare-section">
+  <div class="section-label compare-label">Compare by category</div>
+  <div class="compare-content">
+    <div class="tool-category">
+      <div class="tool-category-name">Email Marketing</div>
+      <div class="tool-pills">
+        <a href="#" class="tool-pill">Mailchimp vs Klaviyo</a>
+        <a href="#" class="tool-pill">ConvertKit vs Beehiiv</a>
+        <a href="#" class="tool-pill">MailerLite vs Flodesk</a>
+      </div>
+    </div>
+    <div class="tool-category">
+      <div class="tool-category-name">Landing Pages</div>
+      <div class="tool-pills">
+        <a href="#" class="tool-pill">Carrd vs Webflow</a>
+        <a href="#" class="tool-pill">Unbounce vs Leadpages</a>
+      </div>
+    </div>
+    <div class="tool-category">
+      <div class="tool-category-name">Analytics</div>
+      <div class="tool-pills">
+        <a href="#" class="tool-pill">GA4 vs Plausible</a>
+        <a href="#" class="tool-pill">Hotjar vs Clarity</a>
+      </div>
+    </div>
+    <div class="tool-category">
+      <div class="tool-category-name">Automation</div>
+      <div class="tool-pills">
+        <a href="#" class="tool-pill">Zapier vs Make</a>
+        <a href="#" class="tool-pill">n8n vs Zapier</a>
+      </div>
+    </div>
+    <div class="tool-category">
+      <div class="tool-category-name">Bookkeeping</div>
+      <div class="tool-pills">
+        <a href="#" class="tool-pill">Wave vs FreshBooks</a>
+        <a href="#" class="tool-pill">Wave vs QuickBooks</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOL DIRECTORY — full list, category-grouped, structured for Astro data layer -->
+<section class="directory-section">
+  <div class="section-label" style="border-top: 1px solid var(--ash);">All tools</div>
+
+  <div class="directory-category-header"><span class="directory-category-name">Email Marketing</span></div>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">Kit</div>
+    <div class="directory-row-desc">Creator-focused email with behavioral automation. Built for operators who sell things.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Automation</span><span class="directory-row-affiliate">Affiliate</span></div>
+  </a>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">Mailchimp</div>
+    <div class="directory-row-desc">Widely used. Functional free tier. Gets expensive fast and fights you on advanced automations.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Free tier</span></div>
+  </a>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">Beehiiv</div>
+    <div class="directory-row-desc">Newsletter-first platform with monetization built in. Strong if audience is the product.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Newsletter</span><span class="directory-row-tag">Monetization</span></div>
+  </a>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">MailerLite</div>
+    <div class="directory-row-desc">Clean, affordable, capable enough for most early-stage operators. Good migration target from Mailchimp.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Free tier</span></div>
+  </a>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">ActiveCampaign</div>
+    <div class="directory-row-desc">Email plus CRM. Serious automation for operators with a real sales motion. Not a beginner tool.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">CRM</span><span class="directory-row-tag">Automation</span><span class="directory-row-affiliate">Affiliate</span></div>
+  </a>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">Flodesk</div>
+    <div class="directory-row-desc">Design-focused email for visual brands. Flat pricing. Limited segmentation and automations.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Design</span><span class="directory-row-tag">Flat pricing</span></div>
+  </a>
+
+  <div class="directory-category-header"><span class="directory-category-name">Analytics</span></div>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">Plausible</div>
+    <div class="directory-row-desc">Privacy-first, simple, fast to set up. What analytics should feel like.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Privacy</span><span class="directory-row-affiliate">Affiliate</span></div>
+  </a>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">GA4</div>
+    <div class="directory-row-desc">Free and powerful. Steep learning curve and a UI that does not respect your time.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Free</span><span class="directory-row-tag">Google</span></div>
+  </a>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">Hotjar</div>
+    <div class="directory-row-desc">Heatmaps, session recordings, and user feedback. Strong for diagnosing conversion issues.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Heatmaps</span><span class="directory-row-tag">CRO</span></div>
+  </a>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">Clarity</div>
+    <div class="directory-row-desc">Microsoft's free Hotjar alternative. No session limits. Less polished but hard to argue with the price.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Free</span><span class="directory-row-tag">Heatmaps</span></div>
+  </a>
+
+  <div class="directory-category-header"><span class="directory-category-name">Automation</span></div>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">Make</div>
+    <div class="directory-row-desc">Scenario-based automation. Better pricing than Zapier. Worth the learning curve past basic workflows.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Scenarios</span><span class="directory-row-affiliate">Affiliate</span></div>
+  </a>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">Zapier</div>
+    <div class="directory-row-desc">The easiest entry point. Task-based pricing gets expensive fast once you're actually using it.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Easy setup</span><span class="directory-row-tag">Expensive at scale</span></div>
+  </a>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">n8n</div>
+    <div class="directory-row-desc">Self-hosted automation. No per-task pricing. Requires more technical comfort to operate.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Self-hosted</span><span class="directory-row-tag">Technical</span></div>
+  </a>
+
+  <div class="directory-category-header"><span class="directory-category-name">Landing Pages</span></div>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">Carrd</div>
+    <div class="directory-row-desc">Single-page sites for $19/yr. Fastest way to a live page. Not for complex funnels.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Simple</span><span class="directory-row-tag">Cheap</span></div>
+  </a>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">Webflow</div>
+    <div class="directory-row-desc">Full design control without code. Steeper learning curve. Right choice if you're building something you'll iterate on.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Design</span><span class="directory-row-tag">CMS</span></div>
+  </a>
+  <a href="#" class="directory-row">
+    <div class="directory-row-name">Unbounce</div>
+    <div class="directory-row-desc">Conversion-focused landing pages with A/B testing built in. More expensive, more purpose-built.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">A/B testing</span><span class="directory-row-tag">CRO</span></div>
+  </a>
+
+  <div class="directory-category-header"><span class="directory-category-name">Bookkeeping</span></div>
+  <a href="article-bookkeeping.html" class="directory-row">
+    <div class="directory-row-name">Wave</div>
+    <div class="directory-row-desc">Free accounting for simple businesses. Good enough until you have employees or complex revenue streams.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Free</span></div>
+  </a>
+  <a href="article-bookkeeping.html" class="directory-row">
+    <div class="directory-row-name">FreshBooks</div>
+    <div class="directory-row-desc">Service businesses and freelancers. Time tracking, invoicing, and P&amp;L without the overhead of QuickBooks.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Invoicing</span><span class="directory-row-tag">Service biz</span><span class="directory-row-affiliate">Affiliate</span></div>
+  </a>
+  <a href="article-bookkeeping.html" class="directory-row">
+    <div class="directory-row-name">QuickBooks</div>
+    <div class="directory-row-desc">The standard for a reason. More than most solo operators need until you're managing real payroll or tax complexity.</div>
+    <div class="directory-row-meta"><span class="directory-row-tag">Payroll</span><span class="directory-row-tag">Tax</span></div>
+  </a>
+
+</section>
+
+<footer>
+  <a href="index.html" class="footer-logo">bootslapped</a>
+  <p class="footer-tagline">For founders who figure it out</p>
+  <div class="footer-cols">
+    <div>
+      <div class="footer-col-label">Content</div>
+      <a href="#" class="footer-link">Diagnostics</a>
+      <a href="#" class="footer-link">Guides</a>
+      <a href="#" class="footer-link">Comparisons</a>
+    </div>
+    <div>
+      <div class="footer-col-label">Tools by category</div>
+      <a href="#" class="footer-link">Email Marketing</a>
+      <a href="#" class="footer-link">Landing Pages</a>
+      <a href="#" class="footer-link">Analytics</a>
+      <a href="#" class="footer-link">Automation</a>
+      <a href="#" class="footer-link">Bookkeeping</a>
+    </div>
+    <div>
+      <div class="footer-col-label">More</div>
+      <a href="#" class="footer-link">About</a>
+      <a href="#" class="footer-link">Affiliate disclosure</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Wave vs. FreshBooks vs. QuickBooks: Which One Actually Makes Sense at Your Stage — Bootslapped</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Oswald:wght@700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  :root {
+    --soot:#0D0D0D; --cinder:#141414; --ash:#2A2A2A;
+    --bone:#F0EDE6; --dust:#9E9893;
+    --brick:#C45C44; --kiln:#D96B51; --brick-tint:rgba(196,92,68,0.12);
+    --steel-teal:#4A9B8E;
+  }
+  html,body { background-color:#0D0D0D !important; background:#0D0D0D !important; color:#F0EDE6; }
+  body { font-family:'DM Mono','Courier New',monospace; font-size:15px; line-height:1.8; overflow-x:hidden; min-height:100vh; }
+  body::after { content:''; position:fixed; inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity:0.032; pointer-events:none; z-index:9999; }
+  /* NAV */
+  nav { position:sticky; top:0; z-index:500; background:rgba(13,13,13,0.96); border-bottom:1px solid var(--ash); display:flex; align-items:center; justify-content:space-between; padding:0 20px; height:52px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
+  .nav-logo { font-family:'Oswald',sans-serif; font-weight:700; font-size:20px; color:var(--brick); text-decoration:none; letter-spacing:0.01em; }
+  .nav-right { display:flex; align-items:center; gap:20px; }
+  .nav-links { display:none; gap:28px; list-style:none; }
+  .nav-links a { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--dust); text-decoration:none; transition:color 0.15s; }
+  .nav-links a:hover { color:var(--bone); }
+  .nav-cta { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--brick); text-decoration:none; border:1px solid var(--brick); padding:6px 12px; white-space:nowrap; transition:all 0.15s; }
+  .nav-cta:hover { background:var(--brick); color:var(--bone); }
+  /* ARTICLE */
+  .article-wrapper { max-width:680px; margin:0 auto; padding:0 20px; }
+  .article-header { padding:40px 0 28px; border-bottom:1px solid var(--ash); }
+  .category-tag { display:inline-block; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--brick); background:var(--brick-tint); border:1px solid var(--brick); padding:3px 9px; margin-bottom:16px; }
+  .article-title { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:clamp(36px,6vw,52px); line-height:1.0; letter-spacing:-0.005em; color:var(--bone); margin-bottom:18px; }
+  .meta-row { display:flex; align-items:center; flex-wrap:wrap; }
+  .meta-item { font-size:11px; color:var(--dust); padding-right:14px; margin-right:14px; border-right:1px solid var(--ash); line-height:1.8; }
+  .meta-item:last-child { border-right:none; margin-right:0; padding-right:0; }
+  .article-disclosure { font-size:11px; color:var(--dust); font-style:italic; padding:16px 0 24px; border-bottom:1px solid var(--ash); margin-bottom:32px; }
+  .article-body p { font-size:15px; line-height:1.8; color:var(--bone); margin-bottom:22px; opacity:0.92; }
+  .article-body h2 { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:32px; letter-spacing:0em; line-height:1.1; color:var(--bone); margin-top:48px; margin-bottom:18px; padding-top:24px; border-top:1px solid var(--ash); }
+  .article-body h3 { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:20px; letter-spacing:0.01em; line-height:1.1; color:var(--bone); margin-top:32px; margin-bottom:12px; }
+  .citable-claim { border-left:4px solid var(--brick); background:var(--cinder); padding:18px 20px; margin:32px 0; }
+  .citable-claim p { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:20px; line-height:1.25; color:var(--bone); letter-spacing:0.01em; margin:0; opacity:1; }
+  /* ASK AI */
+  .ask-ai-block { margin:40px 0; border:1px solid var(--ash); border-left:4px solid var(--steel-teal); background:var(--cinder); }
+  .ask-ai-header { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; border-bottom:1px solid var(--ash); flex-wrap:wrap; gap:6px; }
+  .ask-ai-label { font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--steel-teal); }
+  .ask-ai-instruction { font-size:10px; color:var(--dust); }
+  .ask-ai-prompt { padding:18px 16px; font-size:13px; line-height:1.9; color:var(--bone); opacity:0.9; }
+  .ask-ai-prompt .bracket { background:rgba(255,255,255,0.07); color:var(--bone); padding:1px 5px; font-style:italic; }
+  .ask-ai-footer { padding:10px 16px; border-top:1px solid var(--ash); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+  .ask-ai-note { font-size:10px; color:var(--dust); }
+  .copy-btn { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.06em; background:transparent; border:1px solid var(--ash); color:var(--bone); padding:6px 12px; cursor:pointer; transition:border-color 0.15s, color 0.15s; }
+  .copy-btn:hover { border-color:var(--steel-teal); color:var(--steel-teal); }
+  /* PLATFORM TIERS */
+  .platform-tiers { margin:28px 0; border:1px solid var(--ash); }
+  .platform-tier { display:grid; grid-template-columns:160px 1fr; border-bottom:1px solid var(--ash); align-items:center; }
+  .platform-tier:last-child { border-bottom:none; }
+  .tier-label { font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--dust); padding:14px 16px; border-right:1px solid var(--ash); line-height:1.4; }
+  .tier-tools { font-size:13px; color:var(--bone); padding:14px 16px; line-height:1.5; }
+  .tier-caution .tier-label { color:var(--brick); }
+  .tier-caution .tier-tools { color:var(--dust); }
+  /* TOOL REC */
+  .tool-rec { margin:40px 0; border:1px solid var(--ash); }
+  .tool-rec-header { background:var(--cinder); padding:11px 18px; border-bottom:1px solid var(--ash); display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px; align-items:center; }
+  .tool-rec-label { font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--dust); }
+  .tool-rec-disclosure { font-size:10px; color:var(--dust); font-style:italic; }
+  .tool-rec-body { padding:22px 18px; background:var(--soot); }
+  .tool-name { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:22px; color:var(--bone); letter-spacing:-0.005em; margin-bottom:8px; }
+  .tool-desc { font-size:13px; color:var(--dust); line-height:1.65; margin-bottom:16px; }
+  .tool-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px; }
+  .tool-tag { font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--dust); border:1px solid var(--ash); padding:3px 8px; }
+  .tool-cta { display:inline-block; background:var(--brick); color:var(--bone); font-size:12px; letter-spacing:0.06em; padding:11px 22px; text-decoration:none; transition:background 0.15s; }
+  .tool-cta:hover { background:var(--kiln); }
+  /* DIAG BAND */
+  .diag-band { background:var(--brick); padding:36px 20px; margin:48px -20px; position:relative; overflow:hidden; }
+  .diag-band::before { content:''; position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); opacity:0.07; pointer-events:none; }
+  .diag-overline { font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(240,237,230,0.6); margin-bottom:10px; position:relative; }
+  .diag-headline { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:clamp(32px,7vw,48px); line-height:1.0; letter-spacing:-0.01em; color:var(--bone); margin-bottom:12px; position:relative; }
+  .diag-sub { font-size:12px; color:rgba(240,237,230,0.7); line-height:1.6; margin-bottom:20px; position:relative; }
+  .btn-inverse { display:inline-block; background:var(--bone); color:var(--soot); font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.06em; padding:12px 22px; text-decoration:none; position:relative; transition:background 0.15s; }
+  .btn-inverse:hover { background:#fff; }
+  /* RELATED */
+  .related-section { border-top:1px solid var(--ash); padding-top:40px; margin-top:56px; padding-bottom:64px; }
+  .related-label { font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--dust); margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid var(--ash); }
+  .related-item { display:block; text-decoration:none; color:inherit; padding:20px 0; border-bottom:1px solid var(--ash); transition:background 0.15s; }
+  .related-item:hover { background:var(--cinder); padding-left:12px; margin:0 -20px; padding-right:20px; }
+  .related-type { font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--brick); margin-bottom:6px; }
+  .related-title { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:20px; line-height:1.1; color:var(--bone); letter-spacing:0em; margin-bottom:5px; opacity:0.85; }
+  .related-desc { font-size:11px; color:var(--dust); line-height:1.55; }
+  /* DESKTOP */
+  @media (min-width:900px) {
+    nav { padding:0 32px; }
+    .nav-links { display:flex; }
+    .article-wrapper { padding:0 48px; }
+    .article-header { padding:56px 0 32px; }
+    .diag-band { padding:48px 48px; margin:56px -48px; }
+    .related-item:hover { margin:0 -48px; padding-left:48px; padding-right:48px; }
+  }
+  @media (min-width:1100px) { .article-wrapper { max-width:720px; } }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">bootslapped</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="tools.html">Tools</a></li>
+      <li><a href="#">Guides</a></li>
+      <li><a href="#">Compare</a></li>
+      <li><a href="#">Diagnostics</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Free Diagnostic →</a>
+  </div>
+</nav>
+<article class="article-wrapper">
+  <header class="article-header">
+    <div class="category-tag">Comparison</div>
+    <h1 class="article-title">Wave vs. FreshBooks vs. QuickBooks: Which One Actually Makes Sense at Your Stage</h1>
+    <div class="meta-row">
+      <span class="meta-item">Bookkeeping</span>
+      <span class="meta-item">12 min read</span>
+    </div>
+  </header>
+  <div class="article-body">
+    <p class="article-disclosure">Some links earn commission — doesn't change the recommendation</p>
+    
+<p>For a while, doing nothing worked. Your bank transactions told you what came in. Stripe told you what was paid. A spreadsheet, or nothing at all, handled the rest. If someone asked whether you were profitable, you could give a reasonable answer without too much effort.</p>
+
+<p>Then something changed. Maybe tax time got painful. Maybe a client asked for a formal invoice and what you sent felt embarrassing. Maybe a contractor needed a 1099 and you spent three hours reconstructing what you'd paid them. Maybe you just stared at your bank balance and realized you genuinely couldn't tell whether the business was healthy or you were just confusing revenue with profit.</p>
+
+<p>That's the moment. The "doing nothing" system has started doing something not so great to your business: costing you time, creating risk, or making you look less legitimate than you are.</p>
+
+<h2>When "nothing" is still the right answer</h2>
+
+<p>Before the comparison, an honest check: not everyone reading this needs software yet.</p>
+
+<p>If your business is pre-revenue or very early — a few transactions a month, no contractors, no invoices, no complexity — your bank account and Stripe dashboard may still be sufficient. The cost of software isn't just the subscription fee. It's the maintenance overhead of a system you have to keep current.</p>
+
+<p>The signs that you've crossed the line where "nothing" has stopped working: tax preparation required reconstructing records you didn't keep cleanly; you have contractors who received meaningful payment and need documentation; you're billing clients on invoices and managing accounts receivable; you genuinely cannot tell right now whether your business is profitable; you've started to feel like the records problem is a risk, not just an inconvenience.</p>
+
+<p>If two or more of those are true, you need a tool. The question is which one.</p>
+
+<h2>Wave</h2>
+
+<p>Wave is free for the core accounting functions: invoicing, expense tracking, financial reporting. It makes money on payment processing and payroll, not on the software itself.</p>
+
+<p>What Wave does well: for a simple service business with straightforward income and expenses, it handles everything you actually need. Invoicing is clean. Expense tracking works. The P&L report tells you what you need to know. If your bookkeeping needs are uncomplicated, Wave is genuinely good enough and the $0 price is real.</p>
+
+<p>Where Wave gets complicated: Wave has been quietly reducing what's included in its free tier, and the trajectory suggests more limitations ahead. The platform's reliability is also a real consideration. If you're using Wave, keep your data exported regularly.</p>
+
+<div class="citable-claim"><p>Wave is right if you're a solo service business with simple invoicing and low transaction volume. Wave is not right if your invoicing is complex, you have recurring client billing, or you need time-tracking integration.</p></div>
+
+<h2>FreshBooks</h2>
+
+<p>FreshBooks is built around the service business billing cycle: time tracking, project management, client invoicing, and the relationship between them. It's not just accounting software with invoicing bolted on. It's invoice-and-project-first with accounting built in.</p>
+
+<p>What FreshBooks does well: if you bill clients by the hour, by project, or on retainer, and you need to track time, manage project budgets, and connect that work directly to what gets invoiced, FreshBooks handles this better than either Wave or QuickBooks at a comparable tier. The client experience is also notably better: proposals, invoices, and payment portals all look professional without requiring design effort.</p>
+
+<p>Where FreshBooks falls short: if you're running a product business, a subscription business, or anything with inventory, FreshBooks is not the right tool. It's designed for service businesses.</p>
+
+<h2>QuickBooks</h2>
+
+<p>QuickBooks is the accountant's default for a reason. It has the most comprehensive accounting functionality of the three, integrates with the widest range of third-party tools, and if you ever work with a bookkeeper or accountant, they will almost certainly prefer it.</p>
+
+<p>What QuickBooks does well: everything, eventually. The reporting depth is better than either Wave or FreshBooks. Payroll integration is native. Inventory tracking exists. Tax preparation workflow is more complete.</p>
+
+<p>Where QuickBooks falls short: it's expensive relative to what early-stage bootstrapped businesses actually need, and its interface is designed for accounting professionals, not founders managing their own books. The learning curve is real, and paying for features you won't use for another year isn't a good use of bootstrap budget.</p>
+<div class="ask-ai-block">
+      <div class="ask-ai-header">
+        <span class="ask-ai-label">Ask AI</span>
+        <span class="ask-ai-instruction">Copy this prompt. Paste it into your AI assistant.</span>
+      </div>
+      <div class="ask-ai-prompt">I need to pick bookkeeping software. My situation: I'm a <span class="bracket">[type of business: freelancer / product seller / service business / mix]</span>. I <span class="bracket">[do / don't]</span> invoice clients, I <span class="bracket">[have / don't have]</span> contractors, and my revenue is roughly <span class="bracket">[monthly amount]</span> per month. I'm currently using <span class="bracket">[tool or nothing]</span>. Does Wave, FreshBooks, or QuickBooks fit where I am, or is there something about my setup that changes the recommendation?</div>
+      <div class="ask-ai-footer">
+        <span class="ask-ai-note">Fill in the brackets. The more specific, the more useful the answer.</span>
+        <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt →</button>
+      </div>
+    </div>
+
+<h2>The actual decision</h2>
+
+<p>Solo service business, simple billing, cost-sensitive: start with Wave. When its limitations become real friction, migrate to FreshBooks. The migration is a few hours of setup.</p>
+
+<p>Service business where client work, time tracking, and invoicing are central: go directly to FreshBooks. The cost is justified by the workflow integration.</p>
+
+<p>Product business, subscription revenue, or growing toward a team: QuickBooks now, before you have to migrate later.</p>
+
+<p>Currently using nothing and not sure: if you're billing clients and have contractors, FreshBooks or Wave is the right move this week. If you're purely product-based and growing, QuickBooks. If you're genuinely pre-revenue with minimal transactions, wait.</p>
+<div class="tool-rec">
+      <div class="tool-rec-header">
+        <span class="tool-rec-label">Recommended tool</span>
+        <span class="tool-rec-disclosure">Affiliate link</span>
+      </div>
+      <div class="tool-rec-body">
+        <div class="tool-name">FreshBooks</div>
+        <div class="tool-desc">The right tool for solo and small service businesses where client work, time tracking, and invoicing are central to the workflow. The project-to-invoice connection is native, not bolted on. Start at the Lite plan (~$19/mo) and upgrade when you outgrow it.</div>
+        <div class="tool-tags"><span class="tool-tag">Invoicing</span><span class="tool-tag">Time tracking</span><span class="tool-tag">Client billing</span><span class="tool-tag">From $19/mo</span></div>
+        <a href="#" class="tool-cta">Visit FreshBooks →</a>
+      </div>
+    </div>
+<div class="platform-tiers">
+  <div class="platform-tier"><div class="tier-label">Simple service, free</div><div class="tier-tools">Wave</div></div>
+  <div class="platform-tier"><div class="tier-label">Service with clients</div><div class="tier-tools">FreshBooks</div></div>
+  <div class="platform-tier"><div class="tier-label">Product / complexity</div><div class="tier-tools">QuickBooks</div></div>
+  <div class="platform-tier tier-caution"><div class="tier-label">Migration anxiety</div><div class="tier-tools">The data is exportable. The actual work is hours, not days. Stop putting it off.</div></div>
+</div>
+<p>One note on migration: the fear of switching tools later is real but usually overstated. Your data is exportable. Don't let migration anxiety keep you on a tool that isn't right for where you are. The cost of using the wrong system compounds quietly until it doesn't.</p>
+
+  </div>
+  <div class="diag-band">
+    <div class="diag-overline">Free tool · No email required</div>
+    <div class="diag-headline">Not sure where<br>your marketing<br>is leaking?</div>
+    <div class="diag-sub">5 minutes. Opens directly in your AI assistant. Get a specific answer for your specific situation.</div>
+    <a href="#" class="btn-inverse">Take the Diagnostic →</a>
+  </div>
+  <div class="related-section">
+    <div class="related-label">Related</div>
+    <a href="article-email-list.html" class="related-item">
+      <div class="related-type">Diagnostic</div>
+      <div class="related-title">Why Your Email List Isn't Making You Money</div>
+      <div class="related-desc">Your list has subscribers. People open. Nobody buys. Here's the framework.</div>
+    </a><a href="article-email-platform.html" class="related-item">
+      <div class="related-type">Guide</div>
+      <div class="related-title">How to Pick an Email Platform You Won't Migrate Off In a Year</div>
+      <div class="related-desc">The free tier didn't save you money. It deferred the cost and added interest.</div>
+    </a><a href="index.html" class="related-item">
+      <div class="related-type">Comparison</div>
+      <div class="related-title">Zapier vs Make: The Honest Breakdown for Founders Who Hate Overpaying</div>
+      <div class="related-desc">Task limits, pricing traps, and which one wins for lean operators.</div>
+    </a>
+  </div>
+</article>
+<script>
+  function copyPrompt(btn) {
+    const prompt = btn.closest('.ask-ai-block').querySelector('.ask-ai-prompt').innerText;
+    navigator.clipboard.writeText(prompt).then(() => {
+      btn.textContent = 'Copied ✓';
+      btn.style.borderColor = 'var(--steel-teal)';
+      btn.style.color = 'var(--steel-teal)';
+      setTimeout(() => { btn.textContent = 'Copy prompt →'; btn.style.borderColor = ''; btn.style.color = ''; }, 2000);
+    }).catch(() => { btn.textContent = 'Copied ✓'; setTimeout(() => { btn.textContent = 'Copy prompt →'; }, 2000); });
+  }
+</script>
+</body>
+</html>
